@@ -13,7 +13,7 @@ export interface Props {
 const {
   title,
   description = "A personal blog about technology, life, and ideas.",
-  ogImage = "/og-default.png",
+  ogImage = `${import.meta.env.BASE_URL}/og-default.png`,
   currentPath = "",
 } = Astro.props;
 
@@ -25,7 +25,7 @@ const pageTitle = title ? `${title} | My Blog` : "My Blog";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`} />
 
     <!-- Primary Meta -->
     <title>{pageTitle}</title>
@@ -46,13 +46,13 @@ const pageTitle = title ? `${title} | My Blog` : "My Blog";
 
     <!-- SEO -->
     <meta name="robots" content="index, follow" />
-    <link rel="sitemap" href={`${import.meta.env.BASE_URL}sitemap-index.xml`} />
+    <link rel="sitemap" href={`${import.meta.env.BASE_URL}/sitemap-index.xml`} />
 
     <!-- Canonical -->
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.url.origin).href} />
 
     <!-- Preload pagefind -->
-    <link rel="preload" href="/pagefind/pagefind-ui.css" as="style" />
+    <link rel="preload" href={`${import.meta.env.BASE_URL}/pagefind/pagefind-ui.css`} as="style" />
   </head>
   <body>
     <Header currentPath={currentPath} />
