@@ -50,7 +50,7 @@ const currentPath = Astro.url.pathname;
         frontmatter.tags && frontmatter.tags.length > 0 && (
           <div class="post-tags">
             {frontmatter.tags.map((tag) => (
-              <a href={`/tags/${tag.toLowerCase().replace(/\s+/g, "-")}`} class="tag">
+              <a href={`${import.meta.env.BASE_URL}tags/${tag.toLowerCase().replace(/\s+/g, "-")}`} class="tag">
                 #{tag}
               </a>
             ))}
