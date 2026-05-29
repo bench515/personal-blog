@@ -201,7 +201,15 @@ const navItems = [
   document.getElementById("theme-toggle")?.addEventListener("click", () => {
     const html = document.documentElement;
     html.classList.toggle("dark");
-    localStorage.setItem("theme", html.classList.contains("dark") ? "dark" : "light");
+    const theme = html.classList.contains("dark") ? "dark" : "light";
+    localStorage.setItem("theme", theme);
+
+    // Sync Giscus comment theme
+    const giscusFrame = document.querySelector<HTMLIFrameElement>("iframe.giscus-frame");
+    giscusFrame?.contentWindow?.postMessage(
+      { giscus: { setConfig: { theme } } },
+      "https://giscus.app"
+    );
   });
 
   // Mobile menu
