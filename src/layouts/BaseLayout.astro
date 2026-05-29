@@ -1,0 +1,72 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  currentPath?: string;
+}
+
+const {
+  title,
+  description = "A personal blog about technology, life, and ideas.",
+  ogImage = "/og-default.png",
+  currentPath = "",
+} = Astro.props;
+
+const pageTitle = title ? `${title} | My Blog` : "My Blog";
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Primary Meta -->
+    <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- SEO -->
+    <meta name="robots" content="index, follow" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.url.origin).href} />
+
+    <!-- Preload pagefind -->
+    <link rel="preload" href="/pagefind/pagefind-ui.css" as="style" />
+  </head>
+  <body>
+    <Header currentPath={currentPath} />
+    <main class="main-content container">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  .main-content {
+    min-height: calc(100vh - 60px - 120px);
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+</style>

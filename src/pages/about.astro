@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="关于" currentPath="/about">
+  <h1>👤 关于我</h1>
+  <div class="about-content">
+    <p>你好！我是一个热爱技术的开发者，这是我的个人博客。</p>
+    <p>在这里我会分享：</p>
+    <ul>
+      <li>💻 技术学习笔记</li>
+      <li>🔧 项目实践经验</li>
+      <li>💡 生活中的思考</li>
+    </ul>
+    <p>
+      欢迎通过
+      <a href="https://github.com/bench515" target="_blank" rel="noopener noreferrer">
+        GitHub
+      </a>
+      联系我。
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-content {
+    font-size: 1.05rem;
+    line-height: 1.85;
+  }
+
+  .about-content ul {
+    margin: 0.75rem 0 1rem 1.5rem;
+  }
+
+  .about-content li {
+    margin-bottom: 0.35rem;
+  }
+</style>

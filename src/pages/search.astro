@@ -1,0 +1,61 @@
+---
+// Search page — uses Pagefind for full-text search
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="搜索" currentPath="/search">
+  <h1>🔍 搜索</h1>
+  <div id="search-page">
+    <div id="pagefind-search"></div>
+    <div id="pagefind-results"></div>
+  </div>
+</BaseLayout>
+
+<style>
+  #search-page {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  #pagefind-search {
+    margin-bottom: 2rem;
+  }
+</style>
+
+<script>
+  async function initSearch() {
+    // Load Pagefind UI
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = "/pagefind/pagefind-ui.css";
+    document.head.appendChild(css);
+
+    const script = document.createElement("script");
+    script.src = "/pagefind/pagefind-ui.js";
+    script.onload = () => {
+      // @ts-ignore
+      const PagefindUI = window.PagefindUI;
+      if (PagefindUI) {
+        new PagefindUI({
+          element: "#pagefind-search",
+          showImages: false,
+          showSubResults: true,
+          translations: {
+            placeholder: "输入关键词搜索...",
+            clear_search: "清除",
+            load_more: "加载更多",
+            search_label: "搜索",
+          },
+        });
+      }
+    };
+    document.head.appendChild(script);
+
+    // Also load Pagefind for manual search if needed
+    const pfScript = document.createElement("script");
+    pfScript.src = "/pagefind/pagefind.js";
+    document.head.appendChild(pfScript);
+  }
+
+  initSearch();
+</script>

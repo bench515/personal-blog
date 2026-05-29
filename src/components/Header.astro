@@ -1,0 +1,211 @@
+---
+export interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "" } = Astro.props;
+
+const navItems = [
+  { href: "/", label: "首页" },
+  { href: "/blog", label: "文章" },
+  { href: "/tags", label: "标签" },
+  { href: "/about", label: "关于" },
+];
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="site-logo">📝 My Blog</a>
+    <nav class="site-nav">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class={`nav-link ${currentPath === item.href || currentPath.startsWith(item.href + "/") ? "active" : ""}`}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <button
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="切换暗色模式"
+        title="切换暗色模式"
+      >
+        <span class="icon-sun">☀️</span>
+        <span class="icon-moon">🌙</span>
+      </button>
+    </nav>
+    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="菜单">
+      <span class="hamburger"></span>
+    </button>
+  </div>
+  <div id="mobile-nav" class="mobile-nav hidden">
+    {
+      navItems.map((item) => (
+        <a href={item.href} class="mobile-nav-link">{item.label}</a>
+      ))
+    }
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(12px);
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  .site-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .site-logo:hover {
+    color: var(--color-primary);
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .nav-link {
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--color-primary);
+    background: var(--color-tag-bg);
+  }
+
+  /* Theme toggle */
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.35rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+    transition: border-color 0.2s;
+    line-height: 1;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--color-primary);
+  }
+
+  html.dark .icon-sun {
+    display: none;
+  }
+  html:not(.dark) .icon-moon {
+    display: none;
+  }
+
+  /* Mobile nav */
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  .hamburger,
+  .hamburger::before,
+  .hamburger::after {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-text);
+    transition: transform 0.3s;
+  }
+
+  .hamburger::before,
+  .hamburger::after {
+    content: "";
+    position: absolute;
+  }
+
+  .hamburger::before {
+    transform: translateY(-7px);
+  }
+  .hamburger::after {
+    transform: translateY(7px);
+  }
+
+  .mobile-nav {
+    padding: 0.5rem 1rem 1rem;
+    display: none;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .mobile-nav.hidden {
+    display: none;
+  }
+
+  .mobile-nav-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .site-nav {
+      display: none;
+    }
+    .mobile-menu-btn {
+      display: block;
+    }
+    .mobile-nav:not(.hidden) {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  // Dark mode
+  function initTheme() {
+    const stored = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (stored === "dark" || (!stored && prefersDark)) {
+      document.documentElement.classList.add("dark");
+    }
+  }
+  initTheme();
+
+  document.getElementById("theme-toggle")?.addEventListener("click", () => {
+    const html = document.documentElement;
+    html.classList.toggle("dark");
+    localStorage.setItem("theme", html.classList.contains("dark") ? "dark" : "light");
+  });
+
+  // Mobile menu
+  document.getElementById("mobile-menu-btn")?.addEventListener("click", () => {
+    document.getElementById("mobile-nav")?.classList.toggle("hidden");
+  });
+</script>
