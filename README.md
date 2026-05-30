@@ -1,4 +1,6 @@
-# My Personal Blog 🚀
+# perfectBench 🚀
+
+> 🌐 **https://bench515.github.io/personal-blog**
 
 基于 [Astro](https://astro.build) 构建的个人博客。
 
